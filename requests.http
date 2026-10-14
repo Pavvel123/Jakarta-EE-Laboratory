@@ -1,0 +1,18 @@
+GET http://localhost:9080/api/users
+Accept: application/json
+
+###
+GET http://localhost:9080/api/users/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+Accept: application/json
+
+###
+PUT http://localhost:9080/api/avatars/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+Content-Type: image/png
+
+< ./test-image.png 
+
+###
+GET http://localhost:9080/api/avatars/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+
+###
+DELETE http://localhost:9080/api/avatars/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
