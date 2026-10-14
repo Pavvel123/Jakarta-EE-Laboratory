@@ -1,6 +1,5 @@
 <server description="Jakarta EE Laboratory">
 
-    <!-- List of features to be added when creating the OpenLiberty server instance. -->
     <featureManager>
         <feature>servlet-6.1</feature>
         <feature>persistence-3.2</feature>
@@ -9,12 +8,10 @@
 
     <httpEndpoint id="defaultHttpEndpoint" httpPort="9080" httpsPort="9443"/>
 
-    <!-- By design, JDBC drivers should be part of the server classpath. -->
     <library id="h2Lib">
         <fileset dir="${shared.resource.dir}/h2" includes="*.jar"/>
     </library>
 
-    <!-- By design, JDBC connection should be managed by the server, not the application. -->
     <dataSource jndiName="jdbc/quest">
         <jdbcDriver libraryRef="h2Lib"/>
         <properties url="jdbc:h2:file:/tmp/jakarta-ee-laboratory;AUTO_SERVER=TRUE" user="admin" password="password"/>
