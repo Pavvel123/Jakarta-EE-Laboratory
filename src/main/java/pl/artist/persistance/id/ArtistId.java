@@ -1,6 +1,9 @@
 package pl.artist.persistance.id;
 
+import java.io.Serializable;
 import java.util.UUID;
+
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,7 +19,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-public class ArtistId
+@Embeddable 
+public class ArtistId implements Serializable
 {
     private UUID id;
 

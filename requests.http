@@ -1,8 +1,13 @@
+@baseUrl = http://localhost:9080
+@userId = f70d3bc0-30e7-41eb-b402-7e9604fc20e4
+@artistId = 11111111-1111-1111-1111-111111111111
+@vinylId = 22222222-2222-2222-2222-222222222222
+
 GET http://localhost:9080/api/users
 Accept: application/json
 
 ###
-GET http://localhost:9080/api/users/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+GET http://localhost:9080/api/users/f70d3bc0-30e7-41eb-b402-7e9604fc20e4
 Accept: application/json
 
 ### 404 Not Found
@@ -10,19 +15,52 @@ GET http://localhost:9080/api/users/8edb6a9e-c2e8-491f-9224-3eb35c5d90c1
 Accept: application/json
 
 ###
-PUT http://localhost:9080/api/avatars/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+PUT http://localhost:9080/api/avatars/f70d3bc0-30e7-41eb-b402-7e9604fc20e4
 Content-Type: image/png
 
 < ./test-image.png 
 
 ###
-PUT http://localhost:9080/api/avatars/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+PUT http://localhost:9080/api/avatars/f70d3bc0-30e7-41eb-b402-7e9604fc20e4
 Content-Type: image/png
 
 < ./test-image2.png 
 
 ###
-GET http://localhost:9080/api/avatars/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+GET http://localhost:9080/api/avatars/f70d3bc0-30e7-41eb-b402-7e9604fc20e4
 
 ###
-DELETE http://localhost:9080/api/avatars/8edb6a9e-c2e8-491f-9224-3eb35c5d90c2
+DELETE http://localhost:9080/api/avatars/f70d3bc0-30e7-41eb-b402-7e9604fc20e4
+
+###
+GET http://localhost:9080/api/artists
+Accept: application/json
+
+###
+GET http://localhost:9080/api/artists/a5f887e0-f2a0-4396-a56c-99943a05b61e
+Accept: application/json
+
+###
+GET http://localhost:9080/api/vinyls
+Accept: application/json
+
+###
+POST http://localhost:9080/api/artists
+Content-Type: application/json
+
+{
+  "name": "Metallica",
+  "formationYear": 1981,
+  "isActive": true
+}
+
+###
+POST http://localhost:9080/api/artists/{{artistId}}/vinyls
+Content-Type: application/json
+
+{
+  "title": "In Utero",
+  "releaseDate": "1993-09-21",
+  "price": 139.99,
+  "condition": "POOR"
+}

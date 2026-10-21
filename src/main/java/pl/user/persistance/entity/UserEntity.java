@@ -1,28 +1,26 @@
 package pl.user.persistance.entity;
 
 import pl.user.persistance.id.UserId;
-import pl.vinyl.persistence.entity.VinylEntity;
+// import pl.vinyl.persistence.entity.VinylEntity;
 
 import java.time.LocalDateTime;
-import java.util.List;
+// import java.util.List;
 
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
+@Entity
+@Data
 @Builder
-@ToString
-@EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class UserEntity
 {
+    @EmbeddedId
     private UserId id;
 
     private String login;
@@ -31,5 +29,12 @@ public class UserEntity
 
     private LocalDateTime accountCreatedAt;
 
-    private List<VinylEntity> collection;
+    // private List<VinylEntity> collection;
+
+    public UserEntity(UserId id, String login, String email) {
+        this.id = id;
+        this.login = login;
+        this.email = email;
+        this.accountCreatedAt = LocalDateTime.now();
+    }
 }
