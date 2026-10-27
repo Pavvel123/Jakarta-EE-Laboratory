@@ -1,24 +1,31 @@
 package pl.user.persistance.repository;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import pl.user.persistance.entity.UserEntity;
 import pl.user.persistance.id.UserId;
 
-public class UserRepository
-{
-    private final Map<UserId, UserEntity> datastore = new ConcurrentHashMap<>();
+import java.util.List;
+import java.util.Optional;
+
+@ApplicationScoped
+public class UserRepository {
+
+    @Inject
+    private EntityManager em;
 
     public void save(UserEntity user) {
-        datastore.put(user.getId(), user);
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
     }
 
     public Optional<UserEntity> findById(UserId id) {
-        return Optional.ofNullable(datastore.get(id));
+        return Optional.ofNullable(em.find(UserEntity.class, id));
     }
 
     public List<UserEntity> findAll() {
-        return new ArrayList<>(datastore.values());
+        return em.createQuery("SELECT u FROM UserEntity u", UserEntity.class).getResultList();
     }
 }

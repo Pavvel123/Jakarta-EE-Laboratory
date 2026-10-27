@@ -4,6 +4,8 @@
         <feature>servlet-6.1</feature>
         <feature>persistence-3.2</feature>
         <feature>jsonb-3.0</feature>
+        <feature>cdi-4.1</feature>
+        <feature>restfulWS-4.0</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint" httpPort="9080" httpsPort="9443"/>
@@ -12,9 +14,12 @@
         <fileset dir="${shared.resource.dir}/h2" includes="*.jar"/>
     </library>
 
-    <dataSource jndiName="jdbc/quest">
+    <dataSource jndiName="jdbc/vinyls">
         <jdbcDriver libraryRef="h2Lib"/>
-        <properties url="jdbc:h2:file:/tmp/jakarta-ee-laboratory;AUTO_SERVER=TRUE" user="admin" password="password"/>
+        <properties 
+            url="jdbc:h2:file:/run/media/pawel/Data/PG/7 sem/Narzędzia i aplikacje JEE/Laboratorium/repo/Jakarta-EE-Laboratory/db/jakarta-ee-laboratory;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1"
+            user="sa"
+            password=""/>
     </dataSource>
 
     <webApplication location="jakarta-ee-laboratory.war" contextRoot="/"/>

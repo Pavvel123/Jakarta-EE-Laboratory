@@ -1,27 +1,26 @@
 package pl.vinyl.persistence.entity;
 
 import java.time.LocalDate;
+
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import pl.artist.persistance.entity.ArtistEntity;
-import pl.user.persistance.entity.UserEntity;
+// import pl.artist.persistance.entity.ArtistEntity;
+// import pl.user.persistance.entity.UserEntity;
 import pl.vinyl.persistence.enumeration.VinylCondition;
 import pl.vinyl.persistence.id.VinylId;
 
-@Getter
-@Setter
+@Entity
+@Data
 @Builder
-@ToString
-@EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class VinylEntity
 {
+    @EmbeddedId
     private VinylId id;
 
     private String title;
@@ -32,7 +31,7 @@ public class VinylEntity
 
     private VinylCondition condition;
 
-    private ArtistEntity artist;
+    // private ArtistEntity artist;
 
-    private UserEntity owner;
+    // private UserEntity owner;
 }
