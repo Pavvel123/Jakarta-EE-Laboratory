@@ -34,4 +34,13 @@ public class ArtistRepository {
         em.merge(artist);
         em.getTransaction().commit();
     }
+
+    public void delete(ArtistId id) {
+        em.getTransaction().begin();
+        ArtistEntity artist = em.find(ArtistEntity.class, id);
+        if (artist != null) {
+            em.remove(artist);
+        }
+        em.getTransaction().commit();
+    }
 }

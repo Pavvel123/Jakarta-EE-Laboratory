@@ -3,6 +3,7 @@ package pl.vinyl.persistence.repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import pl.artist.persistance.entity.ArtistEntity;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.id.VinylId;
 
@@ -27,5 +28,29 @@ public class VinylRepository {
 
     public List<VinylEntity> findAll() {
         return em.createQuery("SELECT v FROM VinylEntity v", VinylEntity.class).getResultList();
+    }
+
+    public List<VinylEntity> findByArtist(ArtistEntity artist) {
+    return em.createQuery("SELECT v FROM VinylEntity v WHERE v.artist = :artist", VinylEntity.class)
+             .setParameter("artist", artist)
+             .getResultList();
+}
+
+    public void update(VinylEntity vinyl) {
+        em.getTransaction().begin();
+        em.merge(vinyl);
+        em.getTransaction().commit();
+    }
+
+    public void delete(VinylId id) {
+        em.getTransaction().begin();
+        VinylEntity vinyl = em.find(VinylEntity.class, id);
+        if (vinyl != null) {
+            if (vinyl.getArtist() != null) {
+                vinyl.getArtist().getRecords().remove(vinyl);
+            }
+            em.remove(vinyl);
+        }
+        em.getTransaction().commit();
     }
 }

@@ -47,7 +47,7 @@ public class DataInitializer {
         userRepository.save(fixedUser);
 
         ArtistEntity fixedArtist = new ArtistEntity(ArtistId.of(FIXED_ARTIST_ID), "Nirvana", 1990, true);
-        VinylEntity fixedVinyl = new VinylEntity(VinylId.of(FIXED_VINYL_ID), "Nevermind", LocalDate.of(1991, 2, 15), 99.99, VinylCondition.VERY_GOOD);
+        VinylEntity fixedVinyl = new VinylEntity(VinylId.of(FIXED_VINYL_ID), "Nevermind", LocalDate.of(1991, 2, 15), 99.99, VinylCondition.VERY_GOOD, fixedArtist);
         
         fixedArtist.setRecords(new java.util.ArrayList<>(java.util.List.of(fixedVinyl)));
         artistRepository.save(fixedArtist);
@@ -61,9 +61,9 @@ public class DataInitializer {
         }
 
         ArtistEntity artist = new ArtistEntity(ArtistId.of(UUID.randomUUID()), "Pink Floyd", 1965, true);
-        VinylEntity vinyl1 = new VinylEntity(VinylId.of(UUID.randomUUID()), "The Dark Side of the Moon", LocalDate.of(1973, 3, 1), 120.0, VinylCondition.VERY_GOOD);
-        VinylEntity vinyl2 = new VinylEntity(VinylId.of(UUID.randomUUID()), "The Wall", LocalDate.of(1979, 3, 30), 150.0, VinylCondition.VERY_GOOD);
-        
+        VinylEntity vinyl1 = new VinylEntity(VinylId.of(UUID.randomUUID()), "The Dark Side of the Moon", LocalDate.of(1973, 3, 1), 120.0, VinylCondition.VERY_GOOD, artist);
+        VinylEntity vinyl2 = new VinylEntity(VinylId.of(UUID.randomUUID()), "The Wall", LocalDate.of(1979, 3, 30), 150.0, VinylCondition.VERY_GOOD, artist);
+
         artist.setRecords(new java.util.ArrayList<>(java.util.List.of(vinyl1)));
         artist.setRecords(new java.util.ArrayList<>(java.util.List.of(vinyl2)));
         artistRepository.save(artist);

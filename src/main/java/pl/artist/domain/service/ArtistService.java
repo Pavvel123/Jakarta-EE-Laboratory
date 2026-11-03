@@ -30,4 +30,8 @@ public class ArtistService {
     public void update(ArtistEntity artist) {
         repository.update(artist);
     }
+
+    public void delete(ArtistId id) {
+        repository.delete(id);
+    }
 }
