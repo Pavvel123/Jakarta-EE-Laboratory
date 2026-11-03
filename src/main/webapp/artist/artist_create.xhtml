@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template/main.xhtml">
+
+    <ui:define name="content">
+        <article>
+            <h2>Dodaj nowego artystę</h2>
+
+            <h:form>
+                <div class="form-grid">
+                    <h:outputLabel for="name" value="Imię i nazwisko:"/>
+                    <h:inputText id="name" value="#{artistCreateView.artistEntity.name}" required="true" requiredMessage="Imię i nazwisko są wymagane" validatorMessage="Imię i nazwisko są wymagane"/>
+                    
+                    <h:message for="name"/>
+
+                    <h:outputLabel for="formationYear" value="Rok powstania:"/>
+                    <h:inputText id="formationYear" value="#{artistCreateView.artistEntity.formationYear}" required="true" requiredMessage="Rok powstania jest wymagany" validatorMessage="Rok powstania jest wymagany">
+                        <f:validateLongRange minimum="1900" maximum="2024" />
+                    </h:inputText>
+                    
+                    <h:message for="formationYear"/>
+                    
+                    <h:outputLabel for="isActive" value="Czy aktywny:"/>
+                    <h:selectBooleanCheckbox id="isActive" value="#{artistCreateView.artistEntity.isActive}"/>
+                </div>
+
+                <p>
+                    <h:commandButton value="Zapisz nowego artystę" action="#{artistCreateView.save()}" styleClass="btn"/>
+                </p>
+            </h:form>
+        </article>
+    </ui:define>
+</ui:composition>

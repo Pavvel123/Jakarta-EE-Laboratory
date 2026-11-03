@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Kolekcja Winyli - Jakarta EE</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+<h:body>
+    <header>
+        <h:graphicImage library="img" name="logo.svg" alt="Logo kolekcji winyli"/>
+        <div>
+            <h1>Katalog Płyt Winylowych</h1>
+            <p>Aplikacja do zarządzania artystami i albumami winylowymi</p>
+        </div>
+    </header>
+
+    <nav>
+        <h:link outcome="/index.xhtml" value="Strona główna"/>
+        <h:link outcome="/artist/artist_list.xhtml" value="Artyści"/>
+    </nav>
+
+    <main>
+        <ui:insert name="content"/>
+    </main>
+
+    <footer>
+        <p>&#169; 2026 Katalog Płyt Winylowych – Laboratorium Narzędzia i Aplikacje JEE</p>
+    </footer>
+</h:body>
+</html>

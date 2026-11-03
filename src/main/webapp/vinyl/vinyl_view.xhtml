@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{vinylView.id}" required="true"/>
+        <f:viewAction action="#{vinylView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article>
+            <h2>Szczegóły płyty: <h:outputText value="#{vinylView.vinyl.title}"/></h2>
+            <dl class="form-grid">
+                <dt>ID płyty:</dt>
+                <dd><h:outputText value="#{vinylView.vinyl.id.id}"/></dd>
+
+                <dt>Tytuł:</dt>
+                <dd><h:outputText value="#{vinylView.vinyl.title}"/></dd>
+
+                <dt>Artysta (Kategoria):</dt>
+                <dd><h:outputText value="#{vinylView.vinyl.artist.name}"/></dd>
+
+                <dt>Data wydania:</dt>
+                <dd><h:outputText value="#{vinylView.vinyl.releaseDate}"/></dd>
+
+                <dt>Cena:</dt>
+                <dd><h:outputText value="#{vinylView.vinyl.price}"/> PLN</dd>
+
+                <dt>Stan płyty:</dt>
+                <dd><h:outputText value="#{vinylView.vinyl.condition}"/></dd>
+            </dl>
+
+            <p>
+                <h:link outcome="/artist/artist_view.xhtml" value="Powrót do artysty" styleClass="btn">
+                    <f:param name="id" value="#{vinylView.vinyl.artist.id.id}"/>
+                </h:link>
+            </p>
+        </article>
+    </ui:define>
+</ui:composition>

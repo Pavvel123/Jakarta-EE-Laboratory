@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{artistView.id}" required="true"/>
+        <f:viewAction action="#{artistView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article>
+            <h2>Artysta: <h:outputText value="#{artistView.artist.name}"/></h2>
+            <dl class="form-grid">
+                <dt>ID:</dt>
+                <dd><h:outputText value="#{artistView.artist.id.id}"/></dd>
+                <dt>Rok założenia:</dt>
+                <dd><h:outputText value="#{artistView.artist.formationYear}"/></dd>
+                <dt>Aktywny:</dt>
+                <dd><h:outputText value="#{artistView.artist.isActive ? 'Tak' : 'Nie'}"/></dd>
+            </dl>
+
+            <section>
+                <h3>Płyty winylowe tego artysty</h3>
+                <p>
+                    <h:link outcome="/vinyl/vinyl_create.xhtml" value="+ Dodaj nową płytę" styleClass="btn">
+                        <f:param name="artistId" value="#{artistView.artist.id.id}"/>
+                    </h:link>
+                </p>
+
+                <h:dataTable value="#{artistView.vinyls}" var="vinyl" styleClass="data-table">
+                    <h:column>
+                        <f:facet name="header">Tytuł</f:facet>
+                        <h:outputText value="#{vinyl.title}">
+                        </h:outputText>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Cena</f:facet>
+                        <h:outputText value="#{vinyl.price}"/> PLN
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Akcje</f:facet>
+                        <h:link outcome="/vinyl/vinyl_view.xhtml" value="Szczegóły" styleClass="btn">
+                            <f:param name="id" value="#{vinyl.id.id}"/>
+                        </h:link>
+                        <h:link outcome="/vinyl/vinyl_edit.xhtml" value="Edytuj" styleClass="btn">
+                            <f:param name="id" value="#{vinyl.id.id}"/>
+                        </h:link>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Usuń</f:facet>
+                        <h:form>
+                            <h:commandButton value="Usuń płytę"
+                                             action="#{artistView.deleteVinyl(vinyl)}"
+                                             styleClass="btn btn-danger"/>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+            </section>
+        </article>
+    </ui:define>
+</ui:composition>

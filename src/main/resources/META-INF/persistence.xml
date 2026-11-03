@@ -10,6 +10,8 @@
 
         <non-jta-data-source>jdbc/vinyls</non-jta-data-source>
 
+        <shared-cache-mode>NONE</shared-cache-mode>
+
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
             <!-- <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:file:./vinyls_db;DB_CLOSE_DELAY=-1"/> -->

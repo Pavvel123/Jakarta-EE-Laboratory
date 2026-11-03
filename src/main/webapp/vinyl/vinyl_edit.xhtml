@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{vinylEditView.id}" required="true"/>
+        <f:viewAction action="#{vinylEditView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article>
+            <h2>Edytuj płytę: <h:outputText value="#{vinylEditView.vinyl.title}"/></h2>
+
+            <h:form>
+                <div class="form-grid">
+                    <h:outputLabel for="title" value="Tytuł:"/>
+                    <h:inputText id="title" value="#{vinylEditView.vinyl.title}" required="true"/>
+
+                    <h:outputLabel for="releaseDate" value="Data wydania (RRRR-MM-DD):"/>
+                    <h:inputText id="releaseDate" value="#{vinylEditView.vinyl.releaseDate}">
+                        <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
+                    </h:inputText>
+
+                    <h:outputLabel for="price" value="Cena (PLN):"/>
+                    <h:inputText id="price" value="#{vinylEditView.vinyl.price}" required="true"/>
+
+                    <h:outputLabel for="condition" value="Stan płyty:"/>
+                    <h:selectOneMenu id="condition" value="#{vinylEditView.vinyl.condition}">
+                        <f:selectItems value="#{vinylEditView.conditions}" var="cond"
+                                       itemValue="#{cond}" itemLabel="#{cond}"/>
+                    </h:selectOneMenu>
+
+                    <h:outputLabel for="artist" value="Artysta (Kategoria):"/>
+                    <h:selectOneMenu id="artist" value="#{vinylEditView.vinyl.artist}">
+                        <f:selectItems value="#{vinylEditView.artists}" var="art"
+                                       itemValue="#{art}" itemLabel="#{art.name}"/>
+                    </h:selectOneMenu>
+                </div>
+
+                <p>
+                    <h:commandButton value="Zapisz zmiany" action="#{vinylEditView.save()}" styleClass="btn"/>
+                </p>
+            </h:form>
+        </article>
+    </ui:define>
+</ui:composition>

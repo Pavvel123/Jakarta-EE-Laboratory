@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template/main.xhtml">
+
+    <ui:define name="content">
+        <article>
+            <h2>Lista Artystów</h2>
+
+            <p>
+                <h:link outcome="/artist/artist_create.xhtml" value="Dodaj nowego artystę" styleClass="btn"/>
+            </p>
+
+            <h:dataTable value="#{artistListView.artists}" var="artist" styleClass="data-table">
+                <h:column>
+                    <f:facet name="header">Nazwa artysty</f:facet>
+                    <h:outputText value="#{artist.name}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Szczegóły</f:facet>
+                    <h:link outcome="/artist/artist_view.xhtml" value="Szczegóły" styleClass="btn">
+                        <f:param name="id" value="#{artist.id.id}"/>
+                    </h:link>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Usuń</f:facet>
+                    <h:form>
+                        <h:commandButton value="Usuń kategorię"
+                                         action="#{artistListView.deleteArtist(artist)}"
+                                         styleClass="btn btn-danger"/>
+                    </h:form>
+                </h:column>
+            </h:dataTable>
+        </article>
+    </ui:define>
+</ui:composition>

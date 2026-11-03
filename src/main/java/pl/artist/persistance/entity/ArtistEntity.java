@@ -1,5 +1,6 @@
 package pl.artist.persistance.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import pl.vinyl.persistence.entity.VinylEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -21,9 +23,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArtistEntity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class ArtistEntity implements Serializable
 {
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private ArtistId id;
 
     private String name;
@@ -33,7 +37,7 @@ public class ArtistEntity
     private Boolean isActive;
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "artist_id", referencedColumnName = "id")
     private List<VinylEntity> records = new ArrayList<>();
 
