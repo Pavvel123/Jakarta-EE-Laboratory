@@ -1,10 +1,10 @@
-package pl.artist.persistance.repository;
+package pl.artist.persistence.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import pl.artist.persistance.entity.ArtistEntity;
-import pl.artist.persistance.id.ArtistId;
+import pl.artist.persistence.entity.ArtistEntity;
+import pl.artist.persistence.id.ArtistId;
 
 import java.util.List;
 import java.util.Optional;

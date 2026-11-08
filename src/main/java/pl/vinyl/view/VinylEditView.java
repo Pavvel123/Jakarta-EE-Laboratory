@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.Setter;
 import pl.artist.domain.service.ArtistService;
-import pl.artist.persistance.entity.ArtistEntity;
+import pl.artist.persistence.entity.ArtistEntity;
 import pl.vinyl.domain.service.VinylService;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.enumeration.VinylCondition;

@@ -1,4 +1,4 @@
-package pl.artist.persistance.entity.converter;
+package pl.artist.persistence.entity.converter;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
@@ -7,8 +7,8 @@ import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Inject;
 import pl.artist.domain.service.ArtistService;
-import pl.artist.persistance.entity.ArtistEntity;
-import pl.artist.persistance.id.ArtistId;
+import pl.artist.persistence.entity.ArtistEntity;
+import pl.artist.persistence.id.ArtistId;
 
 import java.util.UUID;
 
