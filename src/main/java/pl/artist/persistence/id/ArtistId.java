@@ -1,4 +1,4 @@
-package pl.artist.persistance.id;
+package pl.artist.persistence.id;
 
 import java.io.Serializable;
 import java.util.UUID;

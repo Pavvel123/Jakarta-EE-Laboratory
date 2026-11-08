@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import pl.artist.persistance.entity.ArtistEntity;
+import pl.artist.persistence.entity.ArtistEntity;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.id.VinylId;
 import pl.vinyl.persistence.repository.VinylRepository;

@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pl.artist.domain.service.ArtistService;
-import pl.artist.persistance.entity.ArtistEntity;
-import pl.artist.persistance.id.ArtistId;
+import pl.artist.persistence.entity.ArtistEntity;
+import pl.artist.persistence.id.ArtistId;
 import pl.vinyl.domain.service.VinylService;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.id.VinylId;
@@ -18,7 +18,7 @@ import pl.vinyl.persistence.id.VinylId;
 import java.io.IOException;
 import java.util.UUID;
 
-@WebServlet(urlPatterns = {"/api/artists/*", "/api/vinyls/*"})
+@WebServlet(urlPatterns = {"/api/servlet/artists/*", "/api/servlet/vinyls/*"})
 public class ArtistRestServlet extends HttpServlet {
 
     @Inject
@@ -42,21 +42,21 @@ public class ArtistRestServlet extends HttpServlet {
         String servletPath = req.getServletPath();
         String pathInfo = req.getPathInfo();
 
-        // GET /api/vinyls
-        if ("/api/vinyls".equals(servletPath)) {
+        // GET /api/servlet/vinyls
+        if ("/api/servlet/vinyls".equals(servletPath)) {
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().write(jsonb.toJson(vinylService.findAllVinyls()));
             return;
         }
 
-        // Obsługa GET /api/artists
+        // Obsługa GET /api/servlet/artists
         if (pathInfo == null || "/".equals(pathInfo)) {
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().write(jsonb.toJson(artistService.findAllArtists()));
             return;
         }
 
-        // Obsługa GET /api/artists/{id}
+        // Obsługa GET /api/servlet/artists/{id}
         try {
             ArtistId artistId = ArtistId.of(UUID.fromString(pathInfo.substring(1)));
             artistService.findArtist(artistId).ifPresentOrElse(
@@ -82,7 +82,7 @@ public class ArtistRestServlet extends HttpServlet {
 
         String pathInfo = req.getPathInfo();
 
-        // POST /api/artists
+        // POST /api/servlet/artists
         if (pathInfo == null || "/".equals(pathInfo)) {
             ArtistEntity newArtist = jsonb.fromJson(req.getReader(), ArtistEntity.class);
             if (newArtist.getId() == null) {
@@ -95,7 +95,7 @@ public class ArtistRestServlet extends HttpServlet {
             return;
         }
 
-        // POST /api/artists/{id}/vinyls
+        // POST /api/servlet/artists/{id}/vinyls
         String[] parts = pathInfo.split("/");
         if (parts.length == 3 && "vinyls".equals(parts[2])) {
             try {

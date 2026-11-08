@@ -3,7 +3,7 @@ package pl.vinyl.persistence.repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import pl.artist.persistance.entity.ArtistEntity;
+import pl.artist.persistence.entity.ArtistEntity;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.id.VinylId;
 

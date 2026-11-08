@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import pl.artist.persistance.entity.ArtistEntity;
-import pl.artist.persistance.id.ArtistId;
-import pl.artist.persistance.repository.ArtistRepository;
+import pl.artist.persistence.entity.ArtistEntity;
+import pl.artist.persistence.id.ArtistId;
+import pl.artist.persistence.repository.ArtistRepository;
 
 @ApplicationScoped
 public class ArtistService {

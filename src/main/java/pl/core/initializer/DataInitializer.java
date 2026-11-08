@@ -10,13 +10,9 @@ import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-// import jakarta.transaction.Transactional;
-// import jakarta.servlet.ServletContextEvent;
-// import jakarta.servlet.ServletContextListener;
-// import jakarta.servlet.annotation.WebListener;
-import pl.artist.persistance.entity.ArtistEntity;
-import pl.artist.persistance.id.ArtistId;
-import pl.artist.persistance.repository.ArtistRepository;
+import pl.artist.persistence.entity.ArtistEntity;
+import pl.artist.persistence.id.ArtistId;
+import pl.artist.persistence.repository.ArtistRepository;
 // import pl.avatar.domain.service.AvatarService;
 // import pl.user.domain.service.UserService;
 import pl.user.persistance.entity.UserEntity;
@@ -31,7 +27,8 @@ public class DataInitializer {
 
     public static final UUID FIXED_USER_ID = UUID.fromString("f70d3bc0-30e7-41eb-b402-7e9604fc20e4");
     public static final UUID FIXED_ARTIST_ID = UUID.fromString("11111111-1111-1111-1111-111111111111");
-    public static final UUID FIXED_VINYL_ID = UUID.fromString("22222222-2222-2222-2222-222222222222");
+    public static final UUID FIXED_ARTISTL_ID2 = UUID.fromString("22222222-2222-2222-2222-222222222222");
+    public static final UUID FIXED_VINYL_ID = UUID.fromString("33333333-3333-3333-3333-333333333333");
 
     @Inject
     private UserRepository userRepository;
@@ -47,10 +44,15 @@ public class DataInitializer {
         userRepository.save(fixedUser);
 
         ArtistEntity fixedArtist = new ArtistEntity(ArtistId.of(FIXED_ARTIST_ID), "Nirvana", 1990, true);
+        ArtistEntity fixedArtist2 = new ArtistEntity(ArtistId.of(FIXED_ARTISTL_ID2), "Metallica", 1981, true);
         VinylEntity fixedVinyl = new VinylEntity(VinylId.of(FIXED_VINYL_ID), "Nevermind", LocalDate.of(1991, 2, 15), 99.99, VinylCondition.VERY_GOOD, fixedArtist);
+        VinylEntity fixedVinyl1 = new VinylEntity(VinylId.of(UUID.randomUUID()), "In Utero", LocalDate.of(1993, 9, 21), 79.99, VinylCondition.GOOD, fixedArtist);
+        VinylEntity fixedVinyl2 = new VinylEntity(VinylId.of(UUID.randomUUID()), "Master of Puppets", LocalDate.of(1986, 3, 3), 89.99, VinylCondition.GOOD, fixedArtist2);
         
-        fixedArtist.setRecords(new java.util.ArrayList<>(java.util.List.of(fixedVinyl)));
+        fixedArtist.setRecords(new java.util.ArrayList<>(java.util.List.of(fixedVinyl, fixedVinyl1)));
+        fixedArtist2.setRecords(new java.util.ArrayList<>(java.util.List.of(fixedVinyl2)));
         artistRepository.save(fixedArtist);
+        artistRepository.save(fixedArtist2);
         
         System.out.println("Utworzono stałą kategorię (Artysta). ID: " + FIXED_ARTIST_ID);
         System.out.println("Utworzono stały element (Płyta). ID: " + FIXED_VINYL_ID);

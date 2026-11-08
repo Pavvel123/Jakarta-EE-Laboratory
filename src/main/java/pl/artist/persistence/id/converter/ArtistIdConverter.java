@@ -1,11 +1,11 @@
-package pl.artist.persistance.id.converter;
+package pl.artist.persistence.id.converter;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
-import pl.artist.persistance.id.ArtistId;
+import pl.artist.persistence.id.ArtistId;
 
 import java.util.UUID;
 

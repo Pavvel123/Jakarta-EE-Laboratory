@@ -1,4 +1,4 @@
-package pl.artist.persistance.entity;
+package pl.artist.persistence.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import pl.artist.persistance.id.ArtistId;
+import pl.artist.persistence.id.ArtistId;
 import pl.vinyl.persistence.entity.VinylEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
