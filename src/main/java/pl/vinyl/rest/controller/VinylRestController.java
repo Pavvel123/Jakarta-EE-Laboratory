@@ -45,7 +45,7 @@ public class VinylRestController {
         }
 
         VinylsListDto response = VinylsListDto.fromEntities(
-                vinylService.findByArtist(artistOpt.get())
+                artistOpt.get().getRecords()
         );
 
         return Response.ok(response).build();

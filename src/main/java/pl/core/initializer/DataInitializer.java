@@ -2,6 +2,8 @@ package pl.core.initializer;
 
 // import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 // import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,11 +15,9 @@ import jakarta.inject.Inject;
 import pl.artist.persistence.entity.ArtistEntity;
 import pl.artist.persistence.id.ArtistId;
 import pl.artist.persistence.repository.ArtistRepository;
-// import pl.avatar.domain.service.AvatarService;
-// import pl.user.domain.service.UserService;
-import pl.user.persistance.entity.UserEntity;
-import pl.user.persistance.id.UserId;
-import pl.user.persistance.repository.UserRepository;
+import pl.user.persistence.entity.UserEntity;
+import pl.user.persistence.id.UserId;
+import pl.user.persistence.repository.UserRepository;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.enumeration.VinylCondition;
 import pl.vinyl.persistence.id.VinylId;
@@ -40,17 +40,53 @@ public class DataInitializer {
     @ActivateRequestContext
     public void init(@Observes @Initialized (ApplicationScoped.class) Object init) {
 
-        UserEntity fixedUser = new UserEntity(UserId.of(FIXED_USER_ID), "tester_stały", "tester@example.com");
+        UserEntity fixedUser = new UserEntity(
+            UserId.of(FIXED_USER_ID),
+            "tester_stały",
+            "tester@example.com");
         userRepository.save(fixedUser);
 
-        ArtistEntity fixedArtist = new ArtistEntity(ArtistId.of(FIXED_ARTIST_ID), "Nirvana", 1990, true);
-        ArtistEntity fixedArtist2 = new ArtistEntity(ArtistId.of(FIXED_ARTISTL_ID2), "Metallica", 1981, true);
-        VinylEntity fixedVinyl = new VinylEntity(VinylId.of(FIXED_VINYL_ID), "Nevermind", LocalDate.of(1991, 2, 15), 99.99, VinylCondition.VERY_GOOD, fixedArtist);
-        VinylEntity fixedVinyl1 = new VinylEntity(VinylId.of(UUID.randomUUID()), "In Utero", LocalDate.of(1993, 9, 21), 79.99, VinylCondition.GOOD, fixedArtist);
-        VinylEntity fixedVinyl2 = new VinylEntity(VinylId.of(UUID.randomUUID()), "Master of Puppets", LocalDate.of(1986, 3, 3), 89.99, VinylCondition.GOOD, fixedArtist2);
+        ArtistEntity fixedArtist = new ArtistEntity(
+            ArtistId.of(FIXED_ARTIST_ID),
+            "Nirvana",
+            1990,
+            true);
+            
+        ArtistEntity fixedArtist2 = new ArtistEntity(
+            ArtistId.of(FIXED_ARTISTL_ID2),
+            "Metallica",
+            1981,
+            true);
+
+        VinylEntity fixedVinyl = new VinylEntity(
+            VinylId.of(FIXED_VINYL_ID),
+            "Nevermind",
+            LocalDate.of(1991, 2, 15),
+            99.99,
+            VinylCondition.VERY_GOOD,
+            fixedArtist,
+            fixedUser);
+
+        VinylEntity fixedVinyl1 = new VinylEntity(
+            VinylId.of(UUID.randomUUID()),
+            "In Utero",
+            LocalDate.of(1993, 9, 21),
+            79.99,
+            VinylCondition.GOOD,
+            fixedArtist,
+            fixedUser);
+
+        VinylEntity fixedVinyl2 = new VinylEntity(
+            VinylId.of(UUID.randomUUID()),
+            "Master of Puppets",
+            LocalDate.of(1986, 3, 3),
+            89.99,
+            VinylCondition.GOOD,
+            fixedArtist2,
+            fixedUser);
         
-        fixedArtist.setRecords(new java.util.ArrayList<>(java.util.List.of(fixedVinyl, fixedVinyl1)));
-        fixedArtist2.setRecords(new java.util.ArrayList<>(java.util.List.of(fixedVinyl2)));
+        fixedArtist.setRecords(new java.util.ArrayList<>(List.of(fixedVinyl, fixedVinyl1)));
+        fixedArtist2.setRecords(new java.util.ArrayList<>(List.of(fixedVinyl2)));
         artistRepository.save(fixedArtist);
         artistRepository.save(fixedArtist2);
         
@@ -58,16 +94,39 @@ public class DataInitializer {
         System.out.println("Utworzono stały element (Płyta). ID: " + FIXED_VINYL_ID);
 
         for (int i = 1; i <= 3; i++) {
-            UserEntity user = new UserEntity(UserId.of(UUID.randomUUID()), "user" + i, "user" + i + "@example.com");
+            UserEntity user = new UserEntity(
+                UserId.of(UUID.randomUUID()),
+                "user" + i,
+                "user" + i + "@example.com");
             userRepository.save(user);
         }
 
-        ArtistEntity artist = new ArtistEntity(ArtistId.of(UUID.randomUUID()), "Pink Floyd", 1965, true);
-        VinylEntity vinyl1 = new VinylEntity(VinylId.of(UUID.randomUUID()), "The Dark Side of the Moon", LocalDate.of(1973, 3, 1), 120.0, VinylCondition.VERY_GOOD, artist);
-        VinylEntity vinyl2 = new VinylEntity(VinylId.of(UUID.randomUUID()), "The Wall", LocalDate.of(1979, 3, 30), 150.0, VinylCondition.VERY_GOOD, artist);
+        ArtistEntity artist = new ArtistEntity(
+            ArtistId.of(UUID.randomUUID()),
+            "Pink Floyd",
+            1965,
+            true);
 
-        artist.setRecords(new java.util.ArrayList<>(java.util.List.of(vinyl1)));
-        artist.setRecords(new java.util.ArrayList<>(java.util.List.of(vinyl2)));
+        VinylEntity vinyl1 = new VinylEntity(
+            VinylId.of(UUID.randomUUID()),
+            "The Dark Side of the Moon",
+            LocalDate.of(1973, 3, 1),
+            120.0,
+            VinylCondition.VERY_GOOD,
+            artist,
+            fixedUser);
+
+        VinylEntity vinyl2 = new VinylEntity(
+            VinylId.of(UUID.randomUUID()),
+            "The Wall",
+            LocalDate.of(1979, 3, 30),
+            150.0,
+            VinylCondition.VERY_GOOD,
+            artist,
+            fixedUser);
+
+        artist.setRecords(new ArrayList<>(List.of(vinyl1)));
+        artist.setRecords(new ArrayList<>(List.of(vinyl2)));
         artistRepository.save(artist);
     }
 }

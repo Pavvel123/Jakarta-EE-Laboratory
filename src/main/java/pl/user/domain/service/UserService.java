@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import pl.user.persistance.entity.UserEntity;
-import pl.user.persistance.id.UserId;
-import pl.user.persistance.repository.UserRepository;
+import pl.user.persistence.entity.UserEntity;
+import pl.user.persistence.id.UserId;
+import pl.user.persistence.repository.UserRepository;
 
 @ApplicationScoped
 public class UserService {

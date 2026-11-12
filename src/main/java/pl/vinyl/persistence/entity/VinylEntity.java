@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.artist.persistence.entity.ArtistEntity;
+import pl.user.persistence.entity.UserEntity;
 // import pl.user.persistance.entity.UserEntity;
 import pl.vinyl.persistence.enumeration.VinylCondition;
 import pl.vinyl.persistence.id.VinylId;
@@ -42,5 +43,7 @@ public class VinylEntity implements Serializable
     @JoinColumn(name = "artist_id", referencedColumnName = "id")
     private ArtistEntity artist;
 
-    // private UserEntity owner;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity user;
 }

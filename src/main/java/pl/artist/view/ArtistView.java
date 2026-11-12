@@ -15,7 +15,7 @@ import pl.vinyl.persistence.entity.VinylEntity;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
+// import java.util.List;
 import java.util.Optional;
 
 @Named
@@ -35,14 +35,14 @@ public class ArtistView implements Serializable {
     @Getter
     private ArtistEntity artist;
 
-    @Getter
-    private List<VinylEntity> vinyls;
+    // @Getter
+    // private List<VinylEntity> vinyls;
 
     public void init() throws IOException {
         Optional<ArtistEntity> found = artistService.findArtist(id);
         if (found.isPresent()) {
             this.artist = found.get();
-            this.vinyls = vinylService.findByArtist(this.artist);
+            // this.vinyls = vinylService.findByArtist(this.artist);
         } else {
             FacesContext.getCurrentInstance().getExternalContext()
                 .responseSendError(HttpServletResponse.SC_NOT_FOUND, "Nie znaleziono artysty");
@@ -51,7 +51,8 @@ public class ArtistView implements Serializable {
 
     public String deleteVinyl(VinylEntity vinyl) {
         vinylService.delete(vinyl.getId());
-        this.vinyls = vinylService.findByArtist(this.artist);
+        // this.vinyls = vinylService.findByArtist(this.artist);
+        this.artist = artistService.findArtist(this.id).orElse(null);
         return null;
     }
 }

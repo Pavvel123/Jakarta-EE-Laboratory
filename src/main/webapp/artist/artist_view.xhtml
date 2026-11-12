@@ -30,7 +30,7 @@
                     </h:link>
                 </p>
 
-                <h:dataTable value="#{artistView.vinyls}" var="vinyl" styleClass="data-table">
+                <h:dataTable value="#{artistView.artist.records}" var="vinyl" styleClass="data-table">
                     <h:column>
                         <f:facet name="header">Tytuł</f:facet>
                         <h:outputText value="#{vinyl.title}">

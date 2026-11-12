@@ -3,7 +3,7 @@ package pl.avatar.domain.service;
 import java.io.InputStream;
 import java.nio.file.*;
 
-import pl.user.persistance.id.UserId;
+import pl.user.persistence.id.UserId;
 
 import java.io.IOException;
 
