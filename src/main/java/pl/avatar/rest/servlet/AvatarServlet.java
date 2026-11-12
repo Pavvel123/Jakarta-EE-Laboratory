@@ -5,7 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import pl.avatar.domain.service.AvatarService;
 import pl.user.domain.service.UserService;
-import pl.user.persistance.id.UserId;
+import pl.user.persistence.id.UserId;
 
 import java.io.IOException;
 import java.util.UUID;

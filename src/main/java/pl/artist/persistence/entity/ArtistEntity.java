@@ -8,7 +8,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
+// import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import pl.artist.persistence.id.ArtistId;
 import pl.vinyl.persistence.entity.VinylEntity;
@@ -37,8 +37,7 @@ public class ArtistEntity implements Serializable
     private Boolean isActive;
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<VinylEntity> records = new ArrayList<>();
 
     public List<VinylEntity> getRecords()

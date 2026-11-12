@@ -10,7 +10,7 @@
 
         <non-jta-data-source>jdbc/vinyls</non-jta-data-source>
 
-        <shared-cache-mode>NONE</shared-cache-mode>
+        <!-- <shared-cache-mode>NONE</shared-cache-mode> -->
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>

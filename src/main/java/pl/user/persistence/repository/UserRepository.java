@@ -1,10 +1,10 @@
-package pl.user.persistance.repository;
+package pl.user.persistence.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import pl.user.persistance.entity.UserEntity;
-import pl.user.persistance.id.UserId;
+import pl.user.persistence.entity.UserEntity;
+import pl.user.persistence.id.UserId;
 
 import java.util.List;
 import java.util.Optional;

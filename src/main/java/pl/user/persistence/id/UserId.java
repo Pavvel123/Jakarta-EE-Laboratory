@@ -1,4 +1,4 @@
-package pl.user.persistance.id;
+package pl.user.persistence.id;
 
 import java.io.Serializable;
 import java.util.UUID;
