@@ -1,0 +1,87 @@
+### Authorization Code Flow with PKCE: step 3: Authorization Code Request. Acquire cookie and redirect location. Brwoser -> Auth
+
+# @no-redirect
+< {%
+	client.global.set("verifier", "qNfsHppOAjxzkPN5kvDEN1UyRiT5a1vR35Hc7L8de_4");
+	client.global.set("challenge", "XLBAu9VL9nN9XA8lUH2feqDrZ6PsliWdb7Y-tcdJjjU");
+%}
+
+GET localhost:8089/oauth2/authorize?
+    response_type=code&
+    client_id=authorization-pkce-client&
+    redirect_uri=http://localhost/cli&
+    state=44b282f8-dd72-4b58-bf1e-06c86fc940b6&
+    scope=read-write&
+    code_challenge={{challenge}}&
+    code_challenge_method=S256
+Accept: text/html,application/xhtml+xml,application/xml
+
+### Authorization Code Flow with PKCE: step 4: Redirect to login/authorization prompt. Browser -> Auth
+
+GET localhost:8089/login
+
+> {%
+	let regex = /<input\s+name="_csrf"\s+type="hidden"\s+value="([^"]+)"\s*\/?>/g;
+	if (typeof response.body === 'string') {
+		let csrf = regex.exec(response.body)[1];
+		client.global.set("csrf", csrf);
+	} else {
+		throw "Response is not string."
+	}
+%}
+
+### Authorization Code Flow with PKCE: step 5: Authenticate and Consent. Browser -> Auth
+
+# @no-redirect
+POST localhost:8089/login
+Content-Type: application/x-www-form-urlencoded
+
+username = kevin &
+password = useruser &
+_csrf = {{csrf}}
+
+### Authorization Code Flow with PKCE: step 6: Authorization Code. Acquire code from redirect location. Browser -> Auth
+
+# @no-redirect
+GET http://localhost:8089/oauth2/authorize?
+    response_type=code&
+    client_id=authorization-pkce-client&
+    redirect_uri=http://localhost/cli&
+    state=44b282f8-dd72-4b58-bf1e-06c86fc940b6&
+    scope=read-write&
+    code_challenge={{challenge}}&
+    code_challenge_method=S256&
+    continue
+
+> {%
+	let location = response.headers.valueOf("Location");
+	const codeIndex = location.indexOf('code=');
+	if (codeIndex !== -1) {
+		// Extract the substring starting from the end of 'code=' to the next '&'
+		let code = location.substring(codeIndex + 5); // Adding 5 to exclude 'code='
+
+		const nextParamIndex = code.indexOf('&');
+		if (nextParamIndex !== -1) {
+			code = code.substring(0, nextParamIndex);
+		}
+		client.global.set("code", code);
+	} else {
+		throw "Response does not contain valid location."
+	}
+%}
+
+### Authorization Code Flow with PKCE: step 7: Authorization Code + Code Verifier. Client -> Auth
+
+# @no-redirect
+POST localhost:8089/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type = authorization_code &
+code = {{code}} &
+redirect_uri = http://localhost/cli &
+client_id = authorization-pkce-client &
+code_verifier = {{verifier}}
+
+> {%
+	client.global.set("token", response.body.access_token);
+%}
