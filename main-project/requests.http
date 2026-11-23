@@ -1,0 +1,125 @@
+@baseUrl = http://localhost:9080/api/jaxrs
+@authUrl = http://localhost:8089
+
+### Authorization Code Flow with PKCE: step 3: Authorization Code Request.
+
+# @no-redirect
+< {%
+	client.global.set("verifier", "qNfsHppOAjxzkPN5kvDEN1UyRiT5a1vR35Hc7L8de_4");
+	client.global.set("challenge", "XLBAu9VL9nN9XA8lUH2feqDrZ6PsliWdb7Y-tcdJjjU");
+%}
+
+GET {{authUrl}}/oauth2/authorize?response_type=code&client_id=authorization-pkce-client&redirect_uri=http://localhost/cli&state=44b282f8-dd72-4b58-bf1e-06c86fc940b6&scope=read-write&code_challenge={{challenge}}&code_challenge_method=S256
+Accept: text/html,application/xhtml+xml,application/xml
+
+### Authorization Code Flow with PKCE: step 4: Redirect to login/authorization prompt.
+
+GET {{authUrl}}/login
+Accept: text/html,application/xhtml+xml,application/xml
+
+> {%
+	let body;
+	if (typeof response.body === 'string') {
+		body = response.body;
+	} else if (response.body && response.body.toString() !== '[object Object]') {
+		body = response.body.toString();
+	} else {
+		body = JSON.stringify(response.body);
+	}
+
+	let regex = /<input\s+name="_csrf"\s+type="hidden"\s+value="([^"]+)"\s*\/?>/i;
+	let match = regex.exec(body);
+	if (match) {
+		client.global.set("csrf", match[1]);
+	} else {
+		throw `Nie znaleziono _csrf! Status: ${response.status}, typ body: ${typeof response.body}, treść: ${String(body).substring(0, 300)}`;
+	}
+%}
+
+### Authorization Code Flow with PKCE: step 5: Authenticate and Consent.
+
+# @no-redirect
+POST {{authUrl}}/login
+Content-Type: application/x-www-form-urlencoded
+
+username=kevin&password=useruser&_csrf={{csrf}}
+
+### Authorization Code Flow with PKCE: step 6: Authorization Code.
+
+# @no-redirect
+GET {{authUrl}}/oauth2/authorize?response_type=code&client_id=authorization-pkce-client&redirect_uri=http://localhost/cli&state=44b282f8-dd72-4b58-bf1e-06c86fc940b6&scope=read-write&code_challenge={{challenge}}&code_challenge_method=S256&continue
+
+> {%
+	let location = response.headers.valueOf("Location");
+	const codeIndex = location.indexOf('code=');
+	if (codeIndex !== -1) {
+		let code = location.substring(codeIndex + 5);
+		const nextParamIndex = code.indexOf('&');
+		if (nextParamIndex !== -1) {
+			code = code.substring(0, nextParamIndex);
+		}
+		client.global.set("code", code);
+	} else {
+		throw "Response does not contain valid location."
+	}
+%}
+
+### Authorization Code Flow with PKCE: step 7: Authorization Code + Code Verifier.
+
+# @no-redirect
+POST {{authUrl}}/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code={{code}}&redirect_uri=http://localhost/cli&client_id=authorization-pkce-client&code_verifier={{verifier}}
+
+> {%
+	client.global.set("token", response.body.access_token);
+%}
+
+### 1. Brak tokenu -> 401 Unauthorized
+GET {{baseUrl}}/artists
+
+### 2. Rejestracja nowego użytkownika (niezabezpieczona) -> 201 Created
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "username": "bob",
+  "email": "bob@example.com",
+  "password": "bobpassword"
+}
+
+### 3. Zalogowany użytkownik (kevin) pobiera kategorie -> 200 OK
+GET {{baseUrl}}/artists
+Authorization: Bearer {{token}}
+
+### 4. Zwykły użytkownik (kevin) próbuje dodać kategorię -> 403 Forbidden
+POST {{baseUrl}}/artists
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Pink Floyd",
+  "formationYear": 1965,
+  "isActive": false
+}
+
+### 5. Zwykły użytkownik (kevin) pobiera płyty artysty -> 200 OK (tylko płyty kevina)
+GET {{baseUrl}}/artists/11111111-1111-1111-1111-111111111111/vinyls
+Authorization: Bearer {{token}}
+
+### 6. Zwykły użytkownik (kevin) dodaje nową płytę (właściciel ustawiony automatycznie) -> 201 Created
+POST {{baseUrl}}/artists/11111111-1111-1111-1111-111111111111/vinyls
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Bleach",
+  "releaseDate": "1989-06-15",
+  "price": 119.99,
+  "condition": "GOOD"
+}
+
+### 7. Próba usunięcia cudzej płyty (np. należącej do alice) jako kevin -> 403 Forbidden
+DELETE {{baseUrl}}/artists/11111111-1111-1111-1111-111111111111/vinyls/30000000-0000-0000-0000-000000000003
+Authorization: Bearer {{token}}
