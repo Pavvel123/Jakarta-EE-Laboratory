@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import pl.artist.domain.service.ArtistService;
 import pl.artist.persistence.entity.ArtistEntity;
 import pl.artist.persistence.id.ArtistId;
-import pl.vinyl.domain.service.VinylService;
+// import pl.vinyl.domain.service.VinylService;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.id.VinylId;
 
@@ -24,8 +24,8 @@ public class ArtistRestServlet extends HttpServlet {
     @Inject
     private ArtistService artistService;
 
-    @Inject
-    private VinylService vinylService;
+    // @Inject
+    // private VinylService vinylService;
 
     private Jsonb jsonb;
 
@@ -39,15 +39,15 @@ public class ArtistRestServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        String servletPath = req.getServletPath();
+        // String servletPath = req.getServletPath();
         String pathInfo = req.getPathInfo();
 
         // GET /api/servlet/vinyls
-        if ("/api/servlet/vinyls".equals(servletPath)) {
-            resp.setStatus(HttpServletResponse.SC_OK);
-            resp.getWriter().write(jsonb.toJson(vinylService.findAllVinyls()));
-            return;
-        }
+        // if ("/api/servlet/vinyls".equals(servletPath)) {
+        //     resp.setStatus(HttpServletResponse.SC_OK);
+        //     resp.getWriter().write(jsonb.toJson(vinylService.findAllVinyls()));
+        //     return;
+        // }
 
         // Obsługa GET /api/servlet/artists
         if (pathInfo == null || "/".equals(pathInfo)) {

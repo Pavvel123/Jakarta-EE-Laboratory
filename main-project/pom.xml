@@ -127,6 +127,20 @@
             <version>4.0.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Jakarta Security API (Jakarta EE 11) -->
+        <dependency>
+            <groupId>jakarta.security.enterprise</groupId>
+            <artifactId>jakarta.security.enterprise-api</artifactId>
+            <version>4.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.47</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

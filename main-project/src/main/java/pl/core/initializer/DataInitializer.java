@@ -2,6 +2,7 @@ package pl.core.initializer;
 
 // import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 // import java.time.LocalDateTime;
@@ -16,9 +17,11 @@ import jakarta.transaction.Transactional;
 import pl.artist.persistence.entity.ArtistEntity;
 import pl.artist.persistence.id.ArtistId;
 import pl.artist.persistence.repository.ArtistRepository;
+import pl.user.domain.model.UserRoles;
+import pl.user.domain.service.UserService;
 import pl.user.persistence.entity.UserEntity;
 import pl.user.persistence.id.UserId;
-import pl.user.persistence.repository.UserRepository;
+// import pl.user.persistence.repository.UserRepository;
 import pl.vinyl.persistence.entity.VinylEntity;
 import pl.vinyl.persistence.enumeration.VinylCondition;
 import pl.vinyl.persistence.id.VinylId;
@@ -32,7 +35,7 @@ public class DataInitializer {
     public static final UUID FIXED_VINYL_ID = UUID.fromString("33333333-3333-3333-3333-333333333333");
 
     @Inject
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Inject
     private ArtistRepository artistRepository;
@@ -41,11 +44,36 @@ public class DataInitializer {
     @Transactional
     public void init(@Observes @Initialized (ApplicationScoped.class) Object init) {
 
-        UserEntity fixedUser = new UserEntity(
-            UserId.of(FIXED_USER_ID),
-            "tester_stały",
-            "tester@example.com");
-        userRepository.save(fixedUser);
+        UserEntity admin = UserEntity.builder()
+        .id(UserId.of(UUID.fromString("00000000-0000-0000-0000-000000000001")))
+        .username("admin")
+        .email("admin@example.com")
+        .password("adminadmin")
+        .roles(new ArrayList<>(List.of(UserRoles.ADMIN, UserRoles.USER)))
+        .accountCreatedAt(LocalDateTime.now())
+        .build();
+
+        UserEntity kevin = UserEntity.builder()
+        .id(UserId.of(UUID.fromString("00000000-0000-0000-0000-000000000002")))
+        .username("kevin")
+        .email("kevin@example.com")
+        .password("useruser")
+        .roles(new ArrayList<>(List.of(UserRoles.USER)))
+        .accountCreatedAt(LocalDateTime.now())
+        .build();
+
+        UserEntity alice = UserEntity.builder()
+        .id(UserId.of(UUID.fromString("00000000-0000-0000-0000-000000000003")))
+        .username("alice")
+        .email("alice@example.com")
+        .password("useruser")
+        .roles(new ArrayList<>(List.of(UserRoles.USER)))
+        .accountCreatedAt(LocalDateTime.now())
+        .build();
+
+        userService.saveInitialUser(admin);
+        userService.saveInitialUser(kevin);
+        userService.saveInitialUser(alice);
 
         ArtistEntity fixedArtist = new ArtistEntity(
             ArtistId.of(FIXED_ARTIST_ID),
@@ -66,7 +94,7 @@ public class DataInitializer {
             99.99,
             VinylCondition.VERY_GOOD,
             fixedArtist,
-            fixedUser);
+            kevin);
 
         VinylEntity fixedVinyl1 = new VinylEntity(
             VinylId.of(UUID.randomUUID()),
@@ -75,16 +103,16 @@ public class DataInitializer {
             79.99,
             VinylCondition.GOOD,
             fixedArtist,
-            fixedUser);
+            kevin);
 
         VinylEntity fixedVinyl2 = new VinylEntity(
-            VinylId.of(UUID.randomUUID()),
+            VinylId.of(UUID.fromString("30000000-0000-0000-0000-000000000003")),
             "Master of Puppets",
             LocalDate.of(1986, 3, 3),
             89.99,
             VinylCondition.GOOD,
             fixedArtist2,
-            fixedUser);
+            alice);
         
         fixedArtist.setRecords(new java.util.ArrayList<>(List.of(fixedVinyl, fixedVinyl1)));
         fixedArtist2.setRecords(new java.util.ArrayList<>(List.of(fixedVinyl2)));
@@ -93,14 +121,6 @@ public class DataInitializer {
         
         System.out.println("Utworzono stałą kategorię (Artysta). ID: " + FIXED_ARTIST_ID);
         System.out.println("Utworzono stały element (Płyta). ID: " + FIXED_VINYL_ID);
-
-        for (int i = 1; i <= 3; i++) {
-            UserEntity user = new UserEntity(
-                UserId.of(UUID.randomUUID()),
-                "user" + i,
-                "user" + i + "@example.com");
-            userRepository.save(user);
-        }
 
         ArtistEntity artist = new ArtistEntity(
             ArtistId.of(UUID.randomUUID()),
@@ -115,7 +135,7 @@ public class DataInitializer {
             120.0,
             VinylCondition.VERY_GOOD,
             artist,
-            fixedUser);
+            kevin);
 
         VinylEntity vinyl2 = new VinylEntity(
             VinylId.of(UUID.randomUUID()),
@@ -124,7 +144,7 @@ public class DataInitializer {
             150.0,
             VinylCondition.VERY_GOOD,
             artist,
-            fixedUser);
+            alice);
 
         artist.setRecords(new ArrayList<>(List.of(vinyl1)));
         artist.setRecords(new ArrayList<>(List.of(vinyl2)));

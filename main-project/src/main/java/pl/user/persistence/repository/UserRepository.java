@@ -27,6 +27,14 @@ public class UserRepository {
     }
 
     @Transactional
+    public Optional<UserEntity> findByUsername(String username) {
+        return em.createQuery("SELECT u FROM UserEntity u WHERE u.username = :username", UserEntity.class)
+                 .setParameter("username", username)
+                 .getResultStream()
+                 .findFirst();
+    }
+
+    @Transactional
     public List<UserEntity> findAll() {
         return em.createQuery("SELECT u FROM UserEntity u", UserEntity.class).getResultList();
     }

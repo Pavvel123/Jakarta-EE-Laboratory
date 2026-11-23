@@ -58,7 +58,18 @@ public class VinylRepository {
     return em.createQuery("SELECT v FROM VinylEntity v WHERE v.artist = :artist", VinylEntity.class)
              .setParameter("artist", artist)
              .getResultList();
-}
+    }
+
+    // Zadanie 4: Filtrowanie elementów zwykłego użytkownika na poziomie bazy danych
+    @Transactional
+    public List<VinylEntity> findByArtistAndUser(ArtistEntity artist, UserEntity user) {
+        return em.createQuery(
+            "SELECT v FROM VinylEntity v WHERE v.artist = :artist AND v.user = :user",
+            VinylEntity.class)
+             .setParameter("artist", artist)
+             .setParameter("user", user)
+             .getResultList();
+    }
 
     @Transactional
     public void update(VinylEntity vinyl) {
